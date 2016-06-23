@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Define Study Area and Training Data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Vegetation Classification Tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Background Information
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="B_project.html">Vegetation Succession</a>
+    </li>
+    <li>
+      <a href="B_specimg.html">Spectral Imagery</a>
+    </li>
+    <li>
+      <a href="B_LiDAR.html">LiDAR Data</a>
+    </li>
+    <li>
+      <a href="B_Class.html">Classification Method</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    General User Interface
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GUI.html">Instructions</a>
+    </li>
+    <li>
+      <a href="GUI_results.html">Example Results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="T_preproc_poly.html">Define Study Area and Training Data</a>
+    </li>
+    <li>
+      <a href="T_preproc_LiDAR.html">Preprocessing LiDAR</a>
+    </li>
+    <li>
+      <a href="T_veg_class.html">Classifying Vegetation</a>
+    </li>
+    <li>
+      <a href="T_veg_change.html">Calculating Vegetation Succession</a>
+    </li>
+    <li>
+      <a href="T_change_sep.html">Calculating Vegetation Change per Class</a>
+    </li>
+    <li>
+      <a href="T_Leaflet.html">Creating an Interactive Map</a>
+    </li>
+    <li>
+      <a href="T_change_stat.html">Statistical Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Define Study Area and Training Data</h1>
+
+</div>
+
+
+<p>In order to classify your study area, you will need an areal image of your study area with a blue, green, red, and NIR band. If multiple years need to be compared, two of these images, one for each year, are needed. It is advised to extract the exact study area, since this improves the classification. Bellow it is described how to extract the exact area in ArcGIS using a shapefile (.shp) of the borders and the areal photograph in .tiff format.</p>
+<p>For the supervised classification method, training data polygons are needed as well. How to make a shapefile containing these in ArcGIS is described in the second part below.</p>
+<hr />
+<div id="define-study-area-extent" class="section level3">
+<h3>Define Study Area Extent</h3>
+<p>Open ArcMap and connect to the folder with holds the shapefile with the borders of the study area ad the areal image of the study area.</p>
+<p>If it is not the default coordinate system, change it to <em>RD_New</em>. Otherwise the training areas might not match with the extent on which it is based on. To do this, right click on Layer, go to <em>Properties</em>, find the tab <em>Coordinate System</em> and search for <em>RD_New</em>. Make sure to use the European projection.</p>
+<p>Add the shapefile with the borders of the study area and areal image to the .mxd file by dragging them from the folder in the <em>Catalog</em> to the <em>Table Of Contents</em>. Make sure that they have the same graphical extent by checking the source tab.</p>
+<p>Find the <em>Clip</em> tool in the <em>Analysis Tools</em> subfolder <em>Extract</em> in the <em>ArcToolbox</em>. The following screen will open:</p>
+<center>
+<img src="figures/ArcGIS_Clip.PNG" width="400" height="250" />
+</center>
+<p><br></p>
+<p>Use the following input and output features:<br> - <strong>Input Features:</strong> areal photograph of study area <br> - <strong>Clip Feature:</strong> shapefile of borders of study area<br> - <strong>Output Feature Class:</strong> folder and name for new file<br> - <strong>XY Tolerance:</strong> leave this one blank<br></p>
+<p>Press <em>OK</em>. The resulting output is the areal photograph of the study area, and no surrounding land. This should be done for each year, if you wish to compare multiple years.</p>
+<hr />
+</div>
+<div id="create-training-data-polygons" class="section level3">
+<h3>Create Training Data Polygons</h3>
+<p>To determine trainings polygons in the study area, add a new layer. To do this, click with your right mouse button on the folder in <em>Catalog</em> in which the layer should be produced. Click on <em>New</em>, and then choose <em>Layer</em>, see image below.</p>
+<center>
+<img src= "figures/ArcGIS_CreateLayer.png" width="600" height="400" />
+</center>
+<p><br></p>
+<p>A dialog box, such as the one below, will pop up in which the name of the new layer can be specified. Define the name and folder and change <em>Feature Type</em> to <em>Polygon</em>.</p>
+<center>
+<img src= "figures/ArcGIS_DialogeTrainingName.PNG" width="300" height="150" />
+</center>
+<p><br></p>
+<p>Then click the <em>Edit</em> button and specify the *Spatial Referenc**. Find for <em>RD_New</em> in the European projections, see image below for the screen in which this should be done.</p>
+<center>
+<img src= "figures/ArcGIS_DialogeTrainingCoordinateSystem.PNG" width="300" height="150" />
+</center>
+<p><br></p>
+<p>By now you should have a layer with the areal photograph of the study area, and an empty layer on top of it. In this empty layer, you now will be adding the training polygons.</p>
+<p>In order to start drawing the first training polygon, enable the <em>Editor Toolbar</em>. If this is not already available, enable it in <em>Customize</em> at the <em>Toolbars</em> menu. When the <em>Editor Toolbar</em> is available, select the empty layer, and under the dropdown menu at <em>Editor</em> click <em>Start Editing</em>. Now select the empty layer in which you will add the training data in the <em>Create Features</em> windown to the right, and at the bottom under <em>Construction Tools</em> select <em>Polygon</em>.</p>
+<p>You can now start drawing the first training polygon. To do this click each of the corners of a spot you wish to use as a training area, double clicking the last. Small deterministic polygons are important for good classification. Draw these trainings areas in all vegetation types which you want to be classified. By default, these determined classes are called as followed and represent in the following image with the numbers in brackets: <strong>grass</strong>, <strong>shrub</strong>, <strong>trees</strong>, <strong>soil</strong>, and <strong>water</strong>. It is possible to define up to eight classes, but the amount of classes does not necessarily improve the classification, the accuracy of your training polygons is much more important. Make sure to include all differences in colours within one class. We recommend having at least 10 training polygons for each vegetation type, and at least 5 for other classes. For an example, see the image below.</p>
+<center>
+<img src= "figures/ArcGIS_ClassificationMap.png" width="500" height="500" />
+</center>
+<p><br></p>
+<p>When enough trainings areas are drawn, they need to be renamed. First stop editing by clicking <em>stop Editing</em> in the dropdown menu under <em>Editor</em>. Then open the <em>ArcToolbox</em>. Find the <em>Data Management Tools</em>, and open the folder <em>Fields</em>, there click the <em>Add Field</em> tool. This opens the following diaolog window.</p>
+<center>
+<img src= "figures/ArcGIS_DialogAddField.PNG" width="500" height="300" />
+</center>
+<p><br></p>
+<p>Here you can add a new field to the table containing the training polygons, which will be used to determine their class. Use the following input and output features:<br> - <strong>Input Table:</strong> the layer with the training polygons<br> - <strong>Field Name:</strong> type <em>class</em> here<br> - <strong>Field Type:</strong> choose <em>text</em><br> - <strong>Field Precision:</strong> leave this one blank<br> - <strong>Field Scale:</strong> leave this one blank<br> - <strong>Field Length:</strong> leave this one blank<br> - <strong>Field Alias:</strong> leave this one blank<br></p>
+<p>Leave the tickboxes as they are and press <em>OK</em>.</p>
+<p>Now open the attribute table of the trainings areas, by right clicking the layer which contains the training polygons in the <em>Table Of Contents</em> and selecting <em>Open Attribute Table</em>. Enable editing again under the dropdown menu at <em>Editor</em> click <em>Start Editing</em>. In the attribute table, double click the <em>class</em> field. Rename the polygons so that the names now indicate to which class each polygon is supposed to belong, see image below where the first polygon has been renamed.</p>
+<center>
+<img src= "figures/ArcGIS_Rename.PNG" width="350" height="200" />
+</center>
+<p><br></p>
+<p>When you are finished renaming all the polygons, stop editing by clicking <em>stop Editing</em> in the dropdown menu under <em>Editor</em> and save the edits with the <em>Save Edits</em> button in the same dropdown menu. The shapefile created in this way can be used for supervized classification in the R script.</p>
+<hr />
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

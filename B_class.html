@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Classification Method</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Vegetation Classification Tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Background Information
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="B_project.html">Vegetation Succession</a>
+    </li>
+    <li>
+      <a href="B_specimg.html">Spectral Imagery</a>
+    </li>
+    <li>
+      <a href="B_LiDAR.html">LiDAR Data</a>
+    </li>
+    <li>
+      <a href="B_Class.html">Classification Method</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    General User Interface
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GUI.html">Instructions</a>
+    </li>
+    <li>
+      <a href="GUI_results.html">Example Results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="T_preproc_poly.html">Define Study Area and Training Data</a>
+    </li>
+    <li>
+      <a href="T_preproc_LiDAR.html">Preprocessing LiDAR</a>
+    </li>
+    <li>
+      <a href="T_veg_class.html">Classifying Vegetation</a>
+    </li>
+    <li>
+      <a href="T_veg_change.html">Calculating Vegetation Succession</a>
+    </li>
+    <li>
+      <a href="T_change_sep.html">Calculating Vegetation Change per Class</a>
+    </li>
+    <li>
+      <a href="T_Leaflet.html">Creating an Interactive Map</a>
+    </li>
+    <li>
+      <a href="T_change_stat.html">Statistical Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Classification Method</h1>
+
+</div>
+
+
+<p>The main idea of this classification is to distinguish different vegetation classes using a common classification method applied to the spectral imagery of a study area. The classification is based on the differences in reflection of the specific surfaces in the area in several electromagnetic wavelengths.</p>
+<hr />
+<div id="classification-using-spectral-imagery" class="section level3">
+<h3>Classification using Spectral Imagery</h3>
+<p>The concept of using spectral imagery for classification purposes is based on the different spectral signatures of the recorded surface to define the different classes. For mapping vegetation, it is most common to use the spectral radiance in the visible light as well as in the NIR regions of the electromagnetic spectrum <span class="citation">(Mather and Koch 2011)</span>.</p>
+<p>We are using a supervised classification method. This means that we use a training set with already known classes, which are definded by the user. This means that the user needs to know for some random areas to which of the vegetation classes they belong. After specifying this, the algorithm proceeds to assign these classes to the rest of the pixels based on the spectral signature. This way, a classifier is developed which can be used to assign the classes to newly added data, e.g. a new year or another area, as well <span class="citation">(Černá and Chytry 2005)</span>. Therefore, the process does not need to be repeated for new data. However, reference data is required to define the training dataset used for the classification <span class="citation">(Xie et al. 2008)</span>.</p>
+<hr />
+</div>
+<div id="random-forest-classification" class="section level3">
+<h3>Random Forest Classification</h3>
+<p>This specific supervised classification method is called a random forest classification. A random forest consists of many decision trees. A decision tree is used for representation of the decision rules the algorithm makes. Using one decision tree, the algorithm first decides in a hierarchical order which main classes the pixel belongs too, and then moves in a specific direction to decide on the specific class. Using vegetation as example, first the algorithm would decide if the pixel is vegetation at all, or something else such as water or bare soil. If it does decide that it is vegetation, the algorithm starts narrowing it down to a more specific vegetation class.</p>
+<p>The random forest algorithm uses many decision trees which are independent from each other, see figure 3 for a visual representation of such a decision tree. They use different training datasets from the original dataset. Every tree decides for a class, dependent on the characteristics. The highest rate determines the final class.</p>
+<center>
+<img src="figures/RandomForestPic.jpg" width="600" height="400"/>
+</center>
+<p>Advantages of the random forest method are that the classification is very fast; the training and building time is short. Also, the evaluation is fast because every tree is calculated seperately. Huge amounts of data can thus be calcualted efficiently, and interconections and imporance of classes can be detected <span class="citation">(Breiman 2001)</span>. For a more in-depth explanation visit <a href="http://www.listendata.com/2014/11/random-forest-with-r.html">listen data</a>, and to get the R documentation visit <a href="https://cran.r-project.org/web/packages/randomForest/randomForest.pdf">this page</a>.</p>
+<hr />
+<div id="refs" class="references">
+<div id="ref-breiman2001random">
+<p>Breiman, Leo. 2001. “Random Forests.” <em>Machine Learning</em> 45 (1). Springer: 5–32.</p>
+</div>
+<div id="ref-vcerna2005supervised">
+<p>Černá, and Chytry. 2005. “Supervised Classification of Plant Communities with Artificial Neural Networks.” <em>Journal of Vegetation Science</em> 16 (4). Wiley Online Library: 407–14.</p>
+</div>
+<div id="ref-mather2011hardware">
+<p>Mather, Paul M, and Magaly Koch. 2011. “Hardware and Software Aspects of Digital Image Processing.” <em>Computer Processing of Remotely-Sensed Images: An Introduction, Fourth Edition</em>. Wiley Online Library, 67–85.</p>
+</div>
+<div id="ref-xie2008remote">
+<p>Xie et al. 2008. “Remote Sensing Imagery in Vegetation Mapping: A Review.” <em>Journal of Plant Ecology</em> 1 (1). Oxford University Press: 9–23.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
