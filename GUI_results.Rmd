@@ -1,0 +1,89 @@
+---
+title: "Example Results"
+
+output: html_document
+---
+
+On this site, you can see a possible output of the application. On the upper right part, the different basemaps and the classification results can be selected.
+This result shows the difference in the classification result for a calculation with and without additonal LiDAR data. When you compare the two maps, it is easy to see that especially trees and shrubs are often confused when only spectral imagery is used. The vegetation stability shows, in which areas the chages takes place and where both calculation have the same result.
+
+
+
+```{r setup, echo=FALSE, include=TRUE, message=FALSE, warning=FALSE}
+
+library(rgdal)
+library(raster)
+library(leaflet)
+
+
+load("Tutorial_files/leaflets.RData")
+
+
+raster_classes1 <- raster("Tutorial_files/raster1_class.tif")
+raster_classes2 <- raster("Tutorial_files/raster2_class.tif")
+change_raster <- raster("Tutorial_files/changes_binary.tif")
+class_names <-class_names_1
+classes_colours <- classes_colours
+nclasses <- nclasses
+  
+  # raster_classes1<-projectRaster(raster_classes1,crs=CRS("+init=epsg:3857"),method="ngb")
+  # raster_classes2<-projectRaster(raster_classes2,crs=CRS("+init=epsg:3857"),method="ngb")
+  
+  pal = colorFactor(classes_colours[1:nclasses], 
+                    domain=(1:nclasses), na.color = "transparent")
+  # Define colors to use for vegetation stability
+  pal2 = colorFactor(c("lightgreen", "orangered"),
+                     domain = (c("1", "2")),
+                     na.color = "transparent")
+  
+  # Build Map
+mymap = leaflet(width=910, height=500)%>%
+    
+    addProviderTiles("OpenStreetMap.BlackAndWhite", group = "Openstreetmap") %>%
+    addProviderTiles("Stamen.TonerLite", group = "Stamen Toner Lite")%>%
+    addProviderTiles("Stamen.Watercolor", group = "Stamen Watercolor")%>%
+    
+    # Add vegetation map 1 to map
+    addRasterImage(raster_classes1, 
+                   group="Class with LiDAR", 
+                   colors=pal, 
+                   project=FALSE)%>%
+    # Add vegetation map2  to map
+    addRasterImage(raster_classes2, 
+                   group="Class without LiDAR", 
+                   colors=pal, 
+                   project=FALSE)%>%
+    # Add stable/unstable to map
+    addRasterImage(change_raster,
+                   group ="Vegetation Stability",
+                   colors = pal2,
+                   project = FALSE)%>%
+    
+    
+    # Add switch between layers
+    addLayersControl(baseGroups = c("Openstreetmap", "Stamen Toner Lite", "Stamen Watercolor"),
+                     overlayGroups = c("Vegetation Stability",
+                                       "Class with LiDAR" , 
+                                       "Class without LiDAR"),
+                     options = layersControlOptions(collapsed = FALSE)) %>%
+    
+    
+    # Add legend
+    addLegend("bottomleft", 
+              colors=classes_colours[1:nclasses],
+              labels = class_names, 
+              title="Vegetation Classes",
+              opacity=1)%>%
+    # Add stability legend
+    addLegend("bottomright",
+              colors=c("lightgreen", "orangered"),
+              labels = c("stable", "unstable"),
+              values = veg_stable, title="Vegetation Stability",
+              opacity=1)
+
+mymap
+
+```
+
+
+

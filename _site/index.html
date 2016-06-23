@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Deirdre Bosch, Maggie Mulley, Felix Thomas, Mark ten Vregelaar, and Aline Werner" />
+
+
+<title>Tutorial for Vegetation Classification</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Vegetation Classification Tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Background Information
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="B_project.html">Vegetation Succession</a>
+    </li>
+    <li>
+      <a href="B_specimg.html">Spectral Imagery</a>
+    </li>
+    <li>
+      <a href="B_LiDAR.html">LiDAR Data</a>
+    </li>
+    <li>
+      <a href="B_Class.html">Classification Method</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    General User Interface
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GUI.html">Instructions</a>
+    </li>
+    <li>
+      <a href="GUI_results.html">Example Results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="T_preproc_poly.html">Define Study Area and Training Data</a>
+    </li>
+    <li>
+      <a href="T_preproc_LiDAR.html">Preprocessing LiDAR</a>
+    </li>
+    <li>
+      <a href="T_veg_class.html">Classifying Vegetation</a>
+    </li>
+    <li>
+      <a href="T_veg_change.html">Calculating Vegetation Succession</a>
+    </li>
+    <li>
+      <a href="T_change_sep.html">Calculating Vegetation Change per Class</a>
+    </li>
+    <li>
+      <a href="T_Leaflet.html">Creating an Interactive Map</a>
+    </li>
+    <li>
+      <a href="T_change_stat.html">Statistical Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Tutorial for Vegetation Classification</h1>
+<h4 class="author"><em>Deirdre Bosch, Maggie Mulley, Felix Thomas, Mark ten Vregelaar, and Aline Werner</em></h4>
+<h4 class="date"><em>June 2016</em></h4>
+
+</div>
+
+
+<hr />
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>This website contains a tutorial on how to simply classify vegetation change based on <a href="B_specimg.html">spectral imagery</a>. These instructions are meant to be read while using the software provided along with it. This software can be found <strong>here</strong>. Additional information about vegetation succession, classification methods, and data types are provided for a better understanding of the underlying processess. As an example, a possible result of a classsifcation can be seen <a href="GUI_results.html">here</a></p>
+<p>The presented method is shown using floodplain areas in The Netherlands as example. In these areas, the change of the vegetation over time is of interest. However, the software can also be used for different areas and purposes if the user sees this fitting. In such cases, the script might need some addapting. This project was carried out by georaphical information science students of Wageningen University as an academic consultancy training.</p>
+<hr />
+</div>
+<div id="why-do-we-need-to-know-the-vegetation-succesion-in-floodplains" class="section level3">
+<h3>Why do we need to know the Vegetation Succesion in Floodplains?</h3>
+<p>In some floodplain areas in The Netherlands, big grazers are used to control and influence the vegetation. This helps to keep these areas free of obstacles to ensure the water can run off easily during flooding occasions. Maps with information about the vegetation cover are crucial to determine the actual impact of the grazers on the vegetation. This website shows an easy and reproducible approach to create vegetation maps from spectral imagery. Additional information about the need to know the how these grazers affect the vegetation can be found <a href="B_project.html">here</a>.</p>
+<hr />
+</div>
+<div id="classifying-vegetation-and-calculating-the-change-using-this-software." class="section level3">
+<h3>Classifying Vegetation and Calculating the Change Using this Software.</h3>
+<p>Before the user can start classifying the vegetation, they will need to have a areal photograph of the area with a blue, green, red and near infrared. If only a vegetation classification is wanted, only one year is necessary. When the user wants to assess the vegetation change, both years are needed. For the area, a training dataset is needed. For more information on how to create these using ArcGIS, see <a href="T_preproc_poly.html">this page</a>.</p>
+<p>If the user wishes to use <a href="B_LiDAR.html">LiDAR data</a> to enhance their accuracy, they would need to have a preprocessed LiDAR dataset available for each year as well. For more information on how to create these, see <a href="T_preproc_LiDAR.html">this page</a>.</p>
+<p>For general users, it is advised to use the <em>general user interface</em> (GUI), which will allow them to simply define their input, and choose which data they wish as output. For more information on the GUI, see <a href="GUI.html">here</a>.</p>
+<p>If the user has some experience with scripting in R, or wishes to learn how to create the maps himself, it is possible for them to do so. A tutorial is available on this website under the tutorial button at the top left. Using an example study site, Klompenwaard near Nijmegen, and a method to identify three vegetation types, it is explained in detail how this can be done without using the application. However, this tutoral is simplified for a better understanding for unexperienced users and is not identical to the application itself.</p>
+<p>The software as profided uses a few simple steps to <a href="B_class.html">classify</a> the vegetation with a random forest method, and calculate the change. After the preprocessing as mentioned above, these steps are as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Classifying the vegetation for each year: <a href="T_veg_class.html">Tutorial</a></li>
+<li>Calculating the vegetation succession between the two years: <a href="T_veg_change.html">Tutorial</a></li>
+<li>Calculating the vegetation change for each vegetation class: <a href="T_change_sep.html">Tutorial</a></li>
+<li>Creating an interactive map of the above results: <a href="T_Leaflet.html">Tutorial</a></li>
+<li>Statistically assessing the vegetation cover and change: <a href="T_change_stat.html">Tutorial</a></li>
+</ol>
+<hr />
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

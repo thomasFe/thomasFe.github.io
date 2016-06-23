@@ -1,0 +1,116 @@
+---
+title: "Calculate Statistics of Vegetation Change"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+To gain insight into the absolute changes in the amount of change, and not just the location of it combined with a visual asessment, it is possible to calculate the percentages of vegetation change. The following **function x** calculates these, and proceedst to plot it, both in a bargraph and in a change matrix.
+
+```{r load packages, include=FALSE, message=FALSE}
+setwd("/Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
+library(raster)
+library(tiff)
+library(rgdal)
+library(leaflet)
+library(htmlwidgets)
+```
+***
+### Calculate the Percentage of each Vegetation Cover During each Year
+First, we calculate the percentage of pixels in each vegetation cover class for each year. This is done in the script as shown below. The rasters are imported. Then a loop is build in order to count the number of pixels within each class for both years seperately. This is done in a loop, because this way we can get a result of 0 in those classes which have no pixels represented in one or both of the years. That is important, because it will allow us to calculate a 0 percentage cover, instead of non-available data.
+
+Next, the script will sum the amount of pixels as calculated. Using this number as a total area, it proceeds to calculate the percentage of each vegetation class in a vectors for each year.
+
+```{r calculate yearly percentage, echo=TRUE, message= FALSE, warning=FALSE}
+year_1 = raster("veg_klompenwaard_year1.tif", convert = TRUE)
+year_2 = raster("veg_klompenwaard_year2.tif", convert = TRUE)
+
+# Count stable and unstable pixels
+freq_veg_year1 = c()
+freq_veg_year2 = c()
+
+for (i in seq(1,5,1)){
+  freq_year1 = freq(year_1, digits = 2, value = (i), useNA = "no")
+  freq_veg_year1 = c(freq_veg_year1,freq_year1)
+  freq_year2 = freq(year_2, digits = 2, value = (i), useNA = "no")
+  freq_veg_year2 = c(freq_veg_year2,freq_year2)
+
+}
+
+# Calculate percentage of veg (change) and plot
+year1_sum = sum(freq_veg_year1)
+year1_per = c(freq_veg_year1/year1_sum*100)
+year2_sum = sum(freq_veg_year2)
+year2_per = c(freq_veg_year2/year2_sum*100)
+```
+
+The result will be a barplot or a matrix, depending on the users preference, as shown below.
+## add matrix
+
+```{r show plots of percentage, echo=FALSE, message= FALSE, warning=FALSE, fig.height=4, fig.width=6}
+percentages = rbind(year1_per, year2_per)
+
+labels = c("grass 1","grass 2", "shrub 1","shrub 2", "trees 1","trees 2", 
+           "soil 1","soil 2", "water 1","water 2")
+valuelabels = c(1.5,2.5,  4.5,5.5,  7.5,8.5,  10.5,11.5,  13.5,14.5)
+
+barplot(percentages, col = c("lightgreen","lightgreen","orange","orange","violet","violet", 
+                             "peru","peru","royalblue","royalblue"), 
+        main = "Vegetation cover",
+        names.arg = labels, ylim=c(0,100), beside = TRUE)
+text(valuelabels, percentages,
+     label = round(percentages,digits=2),
+     adj = c(1,0), pos=1, offset =-1, srt=0, cex = 0.7, xpd = TRUE)
+```
+
+***
+### Calculate the Percentage of Stable and Unstable Vegetation
+The second part of this function will calculate the percentage of the stable and unstable vegetation from the stability raster which is calculated in function x. This is done in the same way as previously explained for the vegetation types. This time it is not done within a loop, because that is not necessary as we will always have some stable and some unstable vegetation.
+
+Again, the user will be able to see a barplot or a matrix of the calculated statistics.
+
+```{r calculate stable percentage, echo=TRUE, message= FALSE, warning=FALSE}
+# Import stable map
+veg_stable = raster("klompenwaard_stable.tif", convert = TRUE)
+
+# Count stable and unstable pixels
+freq_stable = freq(veg_stable, digits = 0, useNA = "no")
+
+# Calculate percentage of stable and unstable pixels
+n_stable = freq_stable [2,2]
+n_unstable = freq_stable [3,2]
+n_total = n_stable + n_unstable
+
+per_stable = (n_stable/n_total)*100
+per_unstable = (n_unstable/n_total)*100
+```
+
+***
+### Calculate the Percentage of Stable and Unstable Vegetation
+Last, this function will calculate the number of percentage of each class which has remained stable, and the percentage of which that has changed into a new vegetation class. That is done in a similar way as the creating the map for vegetation percentage for each year. This will then again be plotted in a bargraph or as a change matrix.
+
+```{r calculate changes percentages, echo=TRUE, message= FALSE, warning=FALSE}
+# Import change map
+veg_change = raster("klompenwaard_change.tif", convert = TRUE)
+
+# Count vegetation change classes
+frequencies = c()
+
+for (i in seq(10,50,10)){
+  for (j in (1:5)){
+    freq_change = freq(veg_change, digits = 2, value = (i+j), useNA = "no")
+    frequencies = c(frequencies,freq_change)
+  }
+}
+
+valuelabels = c(0.75, 1.9, 3.10, 4.30, 5.50)
+
+# Calculate percentage of grass (change)
+grass_count = c(frequencies[1:5])
+grass_sum = sum(grass_count)
+grass_per = c(grass_count/grass_sum*100)
+```
+
+***

@@ -1,0 +1,138 @@
+% This file was created with JabRef 2.10.
+% Encoding: MacRoman
+
+
+@Article{vcerna2005supervised,
+  Title                    = {Supervised classification of plant communities with artificial neural networks},
+  Author                   = {{\v{C}}ern{\'a}, Lenka and Chytr{\`y}, Milan},
+  Journal                  = {Journal of Vegetation Science},
+  Year                     = {2005},
+  Number                   = {4},
+  Pages                    = {407--414},
+  Volume                   = {16},
+
+  Publisher                = {Wiley Online Library}
+}
+
+@Article{antonarakis2008object,
+  Title                    = {Object-based land cover classification using airborne LiDAR},
+  Author                   = {Antonarakis, AS and Richards, Keith S and Brasington, James},
+  Journal                  = {Remote Sensing of Environment},
+  Year                     = {2008},
+  Number                   = {6},
+  Pages                    = {2988--2998},
+  Volume                   = {112},
+
+  Publisher                = {Elsevier}
+}
+
+@Article{breiman2001random,
+  Title                    = {Random forests},
+  Author                   = {Breiman, Leo},
+  Journal                  = {Machine learning},
+  Year                     = {2001},
+  Number                   = {1},
+  Pages                    = {5--32},
+  Volume                   = {45},
+
+  Publisher                = {Springer}
+}
+
+@Electronic{signature,
+  Author                   = {{Canadian Remote Sensing Society}},
+  HowPublished             = {Online},
+  Url                      = {http://www.ucalgary.ca/GEOG/Virtual/Remote%20Sensing/reflectance.gif},
+  Year                     = {2016},
+
+  Owner                    = {felix},
+  Timestamp                = {2016.06.20}
+}
+
+@Article{mather2011hardware,
+  Title                    = {Hardware and Software Aspects of Digital Image Processing},
+  Author                   = {Mather, Paul M and Koch, Magaly},
+  Journal                  = {Computer Processing of Remotely-Sensed Images: An Introduction, Fourth Edition},
+  Year                     = {2011},
+  Pages                    = {67--85},
+
+  Publisher                = {Wiley Online Library}
+}
+
+@Article{poon2005quality,
+  Title                    = {Quality assessment of digital surface models generated from IKONOS imagery},
+  Author                   = {Poon, Joanne and Fraser, Clive S and Chunsun, Zhang and Li, Zhang and Gruen, Armin},
+  Journal                  = {The Photogrammetric Record},
+  Year                     = {2005},
+  Number                   = {110},
+  Pages                    = {162--171},
+  Volume                   = {20},
+
+  Publisher                = {Wiley Online Library}
+}
+
+@Article{overheid,
+  Title                    = {indrapportage PKB-fase Ruimte voor de Rivier.},
+  Author                   = {Rijksoverheid},
+  Year                     = {2007},
+
+  Owner                    = {felix},
+  Timestamp                = {2016.06.20}
+}
+
+@Electronic{cattle,
+  Title                    = {Dutch Belted},
+  Author                   = {{Robinson Library}},
+  HowPublished             = {Online},
+  Url                      = {http://www.robinsonlibrary.com/agriculture/animal/cattle/breeds/belted.htm},
+  Year                     = {2016},
+
+  Owner                    = {felix},
+  Timestamp                = {2016.06.20}
+}
+
+@InProceedings{rothermel2011potential,
+  Title                    = {Potential of dense matching for the generation of high quality digital elevation models},
+  Author                   = {Rothermel, Mathias and Haala, Norbert},
+  Booktitle                = {ISPRS Workshop High-Resoultion Earth Imaging for Geospatial Information},
+  Year                     = {2011}
+}
+
+@InCollection{santosh2014remote,
+  Title                    = {Remote Sensing Basics},
+  Author                   = {Santosh, KM and Sundaresan, J},
+  Booktitle                = {Geospatial Technologies and Climate Change},
+  Publisher                = {Springer},
+  Year                     = {2014},
+  Pages                    = {279--290}
+}
+
+@Article{velzen2003stromingsweerstand,
+  Title                    = {Stromingsweerstand vegetatie in uiterwaarden},
+  Author                   = {Velzen, EH van},
+  Journal                  = {RIZA rapport},
+  Year                     = {2003},
+
+  Publisher                = {Lelystad: Directoraat-Generaal Rijkswaterstaat, RIZA}
+}
+
+@Article{xie2008remote,
+  Title                    = {Remote sensing imagery in vegetation mapping: a review},
+  Author                   = {Xie, Yichun and Sha, Zongyao and Yu, Mei},
+  Journal                  = {Journal of plant ecology},
+  Year                     = {2008},
+  Number                   = {1},
+  Pages                    = {9--23},
+  Volume                   = {1},
+
+  Publisher                = {Oxford University Press}
+}
+
+@Article{van2011kwaliteitsdocument,
+  Title                    = {Kwaliteitsdocument ahn-2},
+  Author                   = {van der Zon, Niels},
+  Journal                  = {Rijkswaterstaat \& Waterschappen, Tech. Rep},
+  Year                     = {2011},
+  Pages                    = {1},
+  Volume                   = {1}
+}
+

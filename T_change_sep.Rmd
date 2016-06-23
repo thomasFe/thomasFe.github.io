@@ -1,0 +1,93 @@
+---
+title: "Create Seperate Vegetation Change Maps"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Since the vegetation change map consists of a lot of classes, it can be quite overwhelming. You can therefore create seperate maps for each of the initial vegetation classes with the **function x**. This will allow you to easier assess the changes, both increase and decrease, of each of the vegetation classes. 
+
+```{r load packages, include=FALSE, message=FALSE}
+setwd("//Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
+
+library(raster)
+library(tiff)
+library(rgdal)
+library(leaflet)
+library(htmlwidgets)
+```
+***
+### Importing and Projecting Vegetation Change Raster
+The first part of the function imports the vegetation change raster as tiff file from the working directory. Then it proceeds to define the projection as Rijksdriehoekstelsel, since R does not know in which projection the image was calculated. Adding the corresponding projection to the raster is important to prevent distortions, and allow it to be mapped in the correct location on the basemap.
+
+```{r import change map, echo=TRUE, message= FALSE, warning=FALSE}
+# Import change map
+veg_change = raster("klompenwaard_change.tif", convert = TRUE)
+
+# Define projection of vegetation and stable raster
+veg_change@crs = CRS("+init=epsg:28992")
+```
+
+***
+### Calculating and Mapping the Vegetation Change for Each Class
+In order to create a map for the changes within each of the vegetetation types, for each of the types we need to reclassify the original vegetation map. This is done using a reclassification matrix, which will remove all those pixels who neither are, nor were part of the class we are interested in. The remaining classes will be sorted into stable, changing to the class we are interested in, and from the class we are interested in into another class.
+
+This is done as shown below for just grass, and repeated for each of the other vegetation types. This is then saved into a new tiff file.
+
+```{r create grass raster, echo=TRUE, message= FALSE, warning=FALSE}
+# Create grass change raster
+gr = c(11, 1, 12, 2, 13, 3, 14, 4, 15, 5,
+       21, 6, 22, 0, 23, 0, 24, 0, 25, 0,
+       31, 7, 32, 0, 33, 0, 34, 0, 35, 0,
+       41, 8, 42, 0, 43, 0, 44, 0, 45, 0,
+       51, 9, 52, 0, 53, 0, 54, 0, 55, 0)
+
+rclmat = matrix(gr, ncol=2, byrow=TRUE)
+grass = reclassify(veg_change, rclmat)
+writeRaster(grass, filename = "klomp_grass.tif", format="GTiff", overwrite = TRUE)
+```
+
+The resulting map is shown in the interface below. It shows the stable areas in blue, the areas which change into grass from other classes, and the areas which change from grass into another class in red.
+
+```{r build leaflet, echo=FALSE, message= FALSE, warning=FALSE}
+change_grass = raster("klomp_grass.tif", convert = TRUE)
+
+pal = colorFactor(c("blue", 
+                    "limegreen", "seagreen", "forestgreen","darkgreen",
+                    "gold", "darkorange", "orangered", "red"),
+                   domain = (c("1",
+                               "2","3","4","5", 
+                               "6","7","8","9")),
+                   na.color = "transparent")
+
+# Build Map
+mymap = leaflet(width=910, height=500)%>%
+  
+  #Add Basemap
+  addProviderTiles("Esri.WorldGrayCanvas",
+                   options = tileOptions(minZoom=10, maxZoom=16)) %>%
+
+    # Add grass
+  addRasterImage(change_grass, 
+                 group = "Grass Change", 
+                 colors = pal, 
+                 project = FALSE)%>%
+  
+  # Add grass legend
+  addLegend("bottomleft",
+            colors=c("blue", 
+                     "limegreen", "seagreen", "forestgreen","darkgreen",
+                     "gold", "darkorange", "orangered", "red"),
+            labels = c("grass -> grass",
+                       "shrub -> grass","trees -> grass","soil -> grass","water -> grass",
+                       "grass -> shrub","grass -> trees","grass -> soil","grass -> water"),
+            values = change_grass, title="Grass Before -> After",
+            opacity=1)
+  
+# print map
+mymap
+```
+
+***

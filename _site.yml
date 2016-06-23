@@ -1,0 +1,49 @@
+name: "my-website"
+navbar:
+  title: "Vegetation Classification Tutorial"
+  left:
+    - text: "Background Information"
+      menu:
+        - text: "Vegetation Succession"
+          href: B_project.html
+        - text: "Spectral Imagery"
+          href: B_specimg.html
+        - text: "LiDAR Data"  
+          href: B_LiDAR.html
+        - text: "Classification Method"  
+          href: B_Class.html
+        
+    - text: "General User Interface"
+      menu:
+        - text: "Instructions" 
+          href: GUI.html
+        - text: "Example Results"
+          href: GUI_results.html
+
+    - text: "Tutorial"
+      menu:
+        - text: "Define Study Area and Training Data"
+          href: T_preproc_poly.html
+        - text: "Preprocessing LiDAR" 
+          href: T_preproc_LiDAR.html
+        - text: "Classifying Vegetation"
+          href: T_veg_class.html
+        - text: "Calculating Vegetation Succession"  
+          href: T_veg_change.html
+        - text: "Calculating Vegetation Change per Class"
+          href: T_change_sep.html    
+        - text: "Creating an Interactive Map" 
+          href: T_Leaflet.html
+        - text: "Statistical Analysis"
+          href: T_change_stat.html
+    
+  right:
+    - icon: fa-question fa-lg
+      href: https://example.com
+      
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    css: styles.css
+    biblio-style: plain

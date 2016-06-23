@@ -1,0 +1,34 @@
+---
+title: "Preprocessing LiDAR"
+output: html_document
+---
+
+Before LiDAR data can be used by the application, it should be clipped to the extend of the study area to reduce the amount of data, since the computation time might be too much to handle for an ordinary computer otherwise. The clipping can be done using ArcGIS and the free toolbox [LAStools](https://rapidlasso.com/lastools/), which can be downloaded [here](http://www.cs.unc.edu/~isenburg/lastools/download/LAStools.zip).
+
+After downloading the toolbox, unzip the file and save the tool on your hard drive. Then, open a new document in ArcMap and import your LiDAR data. After that, click on the toolbox icon as it is shown below.
+
+<center><img src="figures/opentoolbox.PNG" width="400" height="250" /></center> <br>
+
+After that, right-click on *ArcToolbox* and click on *Add Toolbox*. A new window will open, looking like this:
+
+<center><img src="figures/navigate.PNG" width="500" height="250" /></center> <br>
+
+Click on the *Connect to folder* button in upper right corner and naviagte to the folder containing the toolbox. Select the file *LAStool.tbx* and press open. 
+
+The toolbox is now added to ArcMap. To clip the LiDAR data to the correct extend, click on the *ArcToolbox* icon again. Choose the *LAStool* toolbox and select the tool *lasclip*. The tool window opens, as it can be seen below. 
+
+<center><img src="figures/lasclip.PNG" width="500" height="250" /></center> <br>
+
+Use the following input and output features: <br>
+- **Input File: **LiDAR dataset <br>
+- **Clip Polygon:** shapefile of borders of study area <br>
+- **Reclassify into Classification:** leave this at 6 <br>
+- **Output Format:** leave this one blank <br>
+- **Output File: **folder and name for new file <br>
+- **Output Directory:** leave this one blank <br>
+- **Output Appendix:** leave this one blank <br>
+- **Additional Command-line Parameters:** leave this one blank <br>
+
+Leave the rest of the setting on default and press *OK*. Your dataset will then be clipped and is ready to use in our application.
+
+***

@@ -1,0 +1,16 @@
+---
+title: "Spectral Imagery"
+output: html_document
+bibliography: source.bib
+---
+
+We can take photos from satellite or airborne platforms. These can be spectral images, which display the reflectance of the surface along the electromagnetic spectrum. Often, we do not record the entire spectrum, but just a few snapshots along the spectrum, which we call spectral bands.
+
+The images derived in such a way, from satellites or airborne sytems, have a wide range in temporal, spatial, and spectral resolution.The amount of times we take photos indicate the temporal resolution, when we have more photos within a year, we have a higher temporal resolution.The spectral information of the surface is recorded per pixel. A pixel represents an area of the surface, and the size of the area the pixel represents indicates the spatial resolution. When we have a smaller area per pixel, the spatial resoltion is higher. The number of spectral bands indicate the spectral resolution; more bands means a higher cover of the entire electromagnetic spectrum, and thus a higher resolution.
+
+The most common sensors collect data in the visible light regions of the spectrum as well as in the *near-infrared* (NIR) part of the spectrum. The advantage of spectral imagery is that the reflection, transmittance, and absorption of the recorded objects is different, depending on the band. As many objects, such as vegetation and water have characteristic reflection or aborption features at certain wavelengths, spectral imagery can be used to identify these objects to produce maps [@santosh2014remote]. These deteministic features can be refered to as spetral signatures. The image below shows the averaged signatures for water, soil and vegetation [@signature].
+
+<center><img src="figures/spectral_signatures.jpg" width="400" height="250" /> </center> <br><br>
+</center> 
+
+***

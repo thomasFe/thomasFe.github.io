@@ -1,0 +1,76 @@
+---
+title: "Create an Interactive Map"
+output: html_document
+---
+
+***
+### Interactive Maps using the Leaflet Package
+To present your results in a convenient way, interactive maps offer more and better facilities than static maps. The [Leaflet](https://rstudio.github.io/leaflet/) package provides tools to integrate your results into an interactive interface. This makes it possible to display your data on a basemap of your choice and enhances a visual comparison. Multiple different data sources and types can be added, e.g tiles, WMS-server data, points, polygons, polylines ,and raster images. In addition, objects like a legend and control buttons can be integrated to increase the interactive experience.
+These faciliate the possibility to ass and remove content directly on the map using checkboxes. By clicking on the objects, additional information can be displayed as a popup. An example of a simple interactive map showing the study area *Klompenwaard* can be seen below. The used code is commented to explain how the map is created and to make clear why the commands are needed.
+
+```{r load packages, include=FALSE, message=FALSE}
+library(rgdal)
+library(leaflet)
+library(htmlwidgets)
+library(raster)
+library(tiff)
+library(knitr)
+
+# Set working directory
+#setwd("/Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files")
+
+# import required data (in this case a shapefile of the study area and the training samples)
+study_area = readOGR("Tutorial_files/Klompenwaard.shp",layer="Klompenwaard")
+training = readOGR("Tutorial_files/training_data.shp",layer="training_data")
+
+# Change projection to WGS84
+study_area@proj4string = CRS("+init=epsg:28992")
+study_area = spTransform(study_area, CRS("+ellps=WGS84 +proj=longlat +datum=WGS84 +no_defs"))
+training@proj4string = CRS("+init=epsg:28992")
+training = spTransform(training, CRS("+ellps=WGS84 +proj=longlat +datum=WGS84 +no_defs"))
+```
+
+***
+### Building an Interactive Map
+The script calls for the leaflet package. We then add the basemap to the interface. The next step addss the boders of teh study area, and then we add the training polygons to the map as an example. The switch between layers allows us to let the user show one or the other layer to the map. Then we add a ledgend to each of the plotted layers.
+
+
+```{r interface, echo=T, warning=FALSE, message=F}
+# create interactive map
+mymap = leaflet(width=910, height=500)%>%  # width and hight define the size of the map
+  
+  #Add Basemap   # default uses OpenStreetMAp, possible to add different maps
+  addTiles()%>%
+  
+  # Add borders of study area to map
+  addPolygons(data = study_area,
+              weight = 3,
+              color = "red",
+              fill= FALSE, 
+              group="Area Border")%>%
+  
+  addPolygons(data = training,
+              weight = 3,
+              color = "blue",
+              fill= TRUE,
+              group="Training",
+              popup=~vegetation) %>%
+
+  # Add switch between layers
+  addLayersControl(
+    overlayGroups = c("Area Border", "Training"),
+    options = layersControlOptions(collapsed = FALSE)) %>%
+    
+  # Add legend
+  addLegend("bottomleft", 
+            colors=c("red", "blue"), 
+            labels=c("Area Border", "Training"))
+
+# Display the result
+mymap
+
+```
+
+As it can be seen, such an interface is a handy tool to present different results. It is easy to control and quite intuitive and therefore offers the possibility to explore your results without any specific knowledge. For our project, especially the comparison of the vegetation of different years is of interest.
+
+***

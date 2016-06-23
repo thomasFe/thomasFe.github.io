@@ -1,0 +1,182 @@
+--- 
+title: "Vegetation Classification"
+output: html_document
+---
+
+The classification of the vegetation is based on the spectral images. Therefore, beforehand in ArcGIS selected trainings areas determine the spectral signatures as explained in [this tutorial](T_preproc_poly.html).
+
+Using the GUI, or the main R-script will allow you to run the clssification without any problems. If you do wish to addapt any detail within the script the follwing tutorials will help you with that. When running them seperately, make sure you have the follwing packages installed: <br>
+- leaflet<br>
+- gwidgets<br>
+- gwidgetstcltk<br>
+- raster<br>
+- rgdal<br>
+- rLiDAR<br>
+
+You can install these packages with the command: *install.package(packagename)*.
+Before getting started, you should also make sure that your working directory is set to the proper location. You can do this with the following command: *setwd("D:/mainfoldername/subfolder/...")*.
+
+***
+### Processing the Areal Imagery and Calculating NDVI
+In order to classify the vegetation in the study area, an areal photograph needs to be added and one trainings dataset has to be imported. Adding a second year and a LiDAR dataset of the same area is optional.
+
+Firstly, the image is processed. It is aggregated to a lower resolution to speed up the computation time. If the aggregation resolution should be finer, this can be changed in *process_raster.R*. The original grid cells are 0.25 x 0.25 m.  
+
+Next the *Normalized Differentiated Vegetation Index* (NDVI) is calculated. This is done because the NIR band of the electromagnetic spectrum is very deterministic for plant varieties due to differences in the absorption spectrum. Therefore, calculating the NDVI, which is a function of the NIR and the red band, will improve the classification.
+
+```{r, add leading script, echo=TRUE, message= FALSE, warning=FALSE}
+process_raster <- function(raster) {
+  if (raster@file@nbands==4)
+  {
+raster <- aggregate(raster, 4, fun = mean)
+raster@crs <-  CRS("+init=epsg:28992")
+names(raster) <- c("blue", "green", "red", "NIR")
+
+ndvi <- overlay(raster$NIR, raster$red, fun=function(x,y){(x-y)/(x+y)})
+raster <- addLayer(raster, ndvi)
+names(raster)[length(names(raster))]<-"ndvi"
+}
+return(raster)
+}
+```
+
+***
+### Adding the LiDAR Data
+
+For more detailed classification  LiDAR data can be included. If this is done, the following script will be included. The grid raster of the extent file is used for processing of the information of the point cloud data. In the AHN data some parts are determined as ground elevation. This part will not be used for calculation. For each of the cells the standard deviation, the amount of points, and maximum elevation of the points are calculated and added to the extent raster as bands. This information will be used in the classification.
+
+```{r addLidar, echo=TRUE, message= FALSE, warning=FALSE}
+addLIDAR<- function(raster,Lidar){
+  
+  prj_string_RD <- CRS("+init=epsg:28992")
+  points_df <- SpatialPointsDataFrame(Lidar[,1:2],data=data.frame(Lidar[,3]),proj4string =prj_string_RD)
+  
+  points_count<-rasterize(points_df,raster,fun="count")
+  points_max<-rasterize(points_df,raster,fun="max")
+  points_sd<-rasterize(points_df,raster,fun=function(x,...)sd(x))
+  
+  points_count[is.na(points_count)] <- 0
+  points_max[is.na(points_max)] <- 0
+  points_sd[is.na(points_sd)] <- 0
+  
+  points_count<-mask(points_count,raster[[1]])
+  points_max<-mask(points_max,raster[[1]])
+  points_sd<-mask(points_sd,raster[[1]])
+  
+  raster_LIDAR<-brick(list(raster,points_count[[2]],points_max[[2]],points_sd[[2]]))
+  names(raster_LIDAR)[(length(names(raster_LIDAR))-2):length(names(raster_LIDAR))]<-c("LIDAR_counts","LIDAR_max","LIDAR_sd")
+  return(raster_LIDAR)
+}
+```
+
+***
+### Classifying the Vegetation using Training Areas
+The training pixel as created earlier have distinguishable spectra due to their vegetation or land cover. Every single pixel has a specific signature determined by all used bands. These deterministic properties as assigned to a class are used to assign each a class to each of the pixels, as described [here](B_class.html). The algorithm below does this assigning, using a random forest.
+
+````{r generate_RFModel, echo=TRUE, message= FALSE, warning=FALSE}
+generate_RFModel <- function(covs, trainingPoly, nclasses) {
+  nbands<-nlayers(covs)
+  classes <- rasterize(trainingPoly, covs, field='code')
+  covmasked <- mask(covs, classes)
+  names(classes) <- "class"
+  trainingbrick <- addLayer(covmasked, classes)
+  valuetable <- getValues(trainingbrick)
+  valuetable <- na.omit(valuetable)
+  valuetable <- as.data.frame(valuetable)
+  valuetable$class <- factor(valuetable$class, levels = c(1:nclasses))
+  modelRF <- randomForest(x=valuetable[ ,1:nbands], y=valuetable$class,
+                          importance = TRUE)
+   return(modelRF)
+}
+```
+
+With information of the model of the  random forest classification, a vegetation classification map of the entire study area is predicted and returned as the output from the following script.
+
+```{r train_exist, echo=TRUE, message= FALSE, warning=FALSE}
+train_exist <- function(image, RFmodel) {
+  names(image) <- c("blue", "green", "red", "NIR")
+  ndvi <- overlay(image$NIR, image$red, fun=function(x,y){(x-y)/(x+y)})
+  covs <- addLayer(image, ndvi)
+  predLC <- predict(covs, model=RFmodel, na.rm=TRUE)
+  return(predLC)
+}
+```
+
+***
+### Filtering Errors using a Moving Window
+For avoid errors caused by shadows the maps are smoothed with a *moving window*. For example, on grassy areas which are not completely smooth spectral signatures of shadows in some pixel may be classified as shrubs or trees. To avoid this, we average the map according by removing those pixels wich are surrounded by pixels of one other class. The file *result* is in this case the result of out classification that is to be filtered.
+
+```{r moving window1, echo=FALSE, message= FALSE, warning=FALSE}
+library(raster)
+
+
+result = raster("Tutorial_files/a_NS_klomp.tif", convert = TRUE)
+```
+
+```{r moving window, echo=TRUE, message= FALSE, warning=FALSE}
+
+filter <- focal(result, w=matrix(1,3,3), fun=modal)
+```
+
+The classification should result in a vegetation map similar to the following one. In this case, you can see the difference between the image with and without filter.
+
+```{r map, echo=FALSE, message= FALSE, warning=FALSE}
+library(rgdal)
+library(leaflet)
+library(htmlwidgets)
+library(raster)
+#library(tiff)
+library(knitr)
+
+# Set working directory
+
+# Import change map
+filter = raster("Tutorial_files/a_NS_klomp_filter5.tif", convert = TRUE)
+result = raster("Tutorial_files/a_NS_klomp.tif", convert = TRUE)
+
+# Define projection of vegetation and stable raster
+result@crs = CRS("+init=epsg:28992")
+result = projectRaster(result, crs=CRS("+init=epsg:3857"), method = "ngb")
+
+filter@crs = CRS("+init=epsg:28992")
+filter = projectRaster(filter, crs=CRS("+init=epsg:3857"), method = "ngb")
+
+pal = colorFactor(c("lightgreen", "orange", "violet", "peru", "royalblue"),
+                  domain = (c("1","2","3","4","5")),
+                  na.color = "transparent")
+
+# create interactive map
+mymap = leaflet(width=910, height=500)%>%  # width and hight define the size of the map
+  
+  #Add Basemap   # default uses OpenStreetMap, possible to add different maps
+    #Add Basemap
+  addProviderTiles("Esri.WorldGrayCanvas")%>%
+  
+  # Add reusult
+  addRasterImage(result, 
+                 colors=pal, 
+                 project=FALSE, 
+                 group= "without filter")%>%
+  
+    addRasterImage(filter, 
+                 colors=pal, 
+                 project=FALSE, 
+                 group= "filtered")%>%
+  
+  # Add change legend
+  addLegend("bottomright",
+            colors=c("lightgreen", "orange", "violet", "peru", "royalblue"),
+            labels = c("grass", " shrub", "trees","soil", "water"),
+            values = change, title="Vegetation Class",
+            opacity=1)%>%
+
+  # Add switch between layers
+  addLayersControl(
+    overlayGroups = c("without filter", "filtered"),
+    options = layersControlOptions(collapsed = FALSE))
+
+# Display the result
+mymap
+```
+
+***
