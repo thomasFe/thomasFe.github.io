@@ -18,7 +18,13 @@ This specific supervised classification method is called a random forest classif
 
 The random forest algorithm uses many decision trees which are independent from each other, see figure 3 for a visual representation of such a decision tree. They use different training datasets from the original dataset. Every tree decides for a class, dependent on the characteristics. The highest rate determines the final class.
 
-<center><img src="figures/RandomForestPic.jpg" width="600" height="400"/></center>
+
+<div class="figure">
+<center><img src="figures/RandomForestPic.jpg" width="600" height="400" alt="Random Forest" />
+<p class="caption">Decision trees in random forest</p>
+</div></center>
+<br>
+
 
 Advantages of the random forest method are that the classification is very fast; the training and building time is short. Also, the evaluation is fast because every tree is calculated seperately. Huge amounts of data can thus be calcualted efficiently, and interconections and imporance of classes can be detected [@breiman2001random]. For a more in-depth explanation visit [listen data](http://www.listendata.com/2014/11/random-forest-with-r.html), and to get the R documentation visit [this page](https://cran.r-project.org/web/packages/randomForest/randomForest.pdf).
 

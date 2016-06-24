@@ -19,7 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <link rel="stylesheet"
@@ -195,13 +194,13 @@ $(document).ready(function () {
       <a href="B_LiDAR.html">LiDAR Data</a>
     </li>
     <li>
-      <a href="B_Class.html">Classification Method</a>
+      <a href="B_class.html">Classification Method</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    General User Interface
+    Graphical User Interface
      
     <span class="caret"></span>
   </a>
@@ -210,7 +209,7 @@ $(document).ready(function () {
       <a href="GUI.html">Instructions</a>
     </li>
     <li>
-      <a href="GUI_results.html">Example Results</a>
+      <a href="results.html">Example Results</a>
     </li>
   </ul>
 </li>
@@ -246,12 +245,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://example.com">
-    <span class="fa fa-question fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -278,9 +272,15 @@ $(document).ready(function () {
 <h3>Random Forest Classification</h3>
 <p>This specific supervised classification method is called a random forest classification. A random forest consists of many decision trees. A decision tree is used for representation of the decision rules the algorithm makes. Using one decision tree, the algorithm first decides in a hierarchical order which main classes the pixel belongs too, and then moves in a specific direction to decide on the specific class. Using vegetation as example, first the algorithm would decide if the pixel is vegetation at all, or something else such as water or bare soil. If it does decide that it is vegetation, the algorithm starts narrowing it down to a more specific vegetation class.</p>
 <p>The random forest algorithm uses many decision trees which are independent from each other, see figure 3 for a visual representation of such a decision tree. They use different training datasets from the original dataset. Every tree decides for a class, dependent on the characteristics. The highest rate determines the final class.</p>
+<div class="figure">
 <center>
-<img src="figures/RandomForestPic.jpg" width="600" height="400"/>
+<img src="figures/RandomForestPic.jpg" width="600" height="400" alt="Random Forest" />
+<p class="caption">
+Decision trees in random forest
+</p>
+</div>
 </center>
+<p><br></p>
 <p>Advantages of the random forest method are that the classification is very fast; the training and building time is short. Also, the evaluation is fast because every tree is calculated seperately. Huge amounts of data can thus be calcualted efficiently, and interconections and imporance of classes can be detected <span class="citation">(Breiman 2001)</span>. For a more in-depth explanation visit <a href="http://www.listendata.com/2014/11/random-forest-with-r.html">listen data</a>, and to get the R documentation visit <a href="https://cran.r-project.org/web/packages/randomForest/randomForest.pdf">this page</a>.</p>
 <hr />
 <div id="refs" class="references">

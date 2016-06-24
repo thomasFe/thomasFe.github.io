@@ -22,6 +22,7 @@ load("Tutorial_files/leaflets.RData")
 raster_classes1 <- raster("Tutorial_files/raster1_class.tif")
 raster_classes2 <- raster("Tutorial_files/raster2_class.tif")
 change_raster <- raster("Tutorial_files/changes_binary.tif")
+changes_class  <- raster("Tutorial_files/changes.tif")
 class_names <-class_names_1
 classes_colours <- classes_colours
 nclasses <- nclasses

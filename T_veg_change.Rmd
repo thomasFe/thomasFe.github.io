@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 In order to assess the vegetation change, first the classified vegetation rasters of both years need to be available. These were previously created in the **x-function**. Within this function, named **x**, you call for these two rasters, and then proceed to calculate the changes for each pixel.
 
 ```{r load packages, include=FALSE, message=FALSE}
-setwd("/Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
+#setwd("/Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
 
 library(raster)
 library(tiff)
@@ -24,8 +24,8 @@ The first part of the function imports the classified vegetation rasters as tiff
 
 ```{r import rasters, echo=TRUE, message= FALSE, warning=FALSE}
 # Import rasters of years to compare as .tiff files from the working directory
-year_1 = raster("veg_klompenwaard_year1.tif", convert = TRUE)
-year_2 = raster("veg_klompenwaard_year2.tif", convert = TRUE)
+year_1 = raster("Tutorial_files/veg_klompenwaard_year1.tif", convert = TRUE)
+year_2 = raster("Tutorial_files/veg_klompenwaard_year2.tif", convert = TRUE)
 
 # Define projection of vegetation raster
 year_1@crs = CRS("+init=epsg:28992")

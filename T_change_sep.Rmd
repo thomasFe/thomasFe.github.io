@@ -7,10 +7,10 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Since the vegetation change map consists of a lot of classes, it can be quite overwhelming. You can therefore create seperate maps for each of the initial vegetation classes with the **function x**. This will allow you to easier assess the changes, both increase and decrease, of each of the vegetation classes. 
+Since the vegetation change map consists of a lot of classes, it can be quite overwhelming. You can therefore create seperate maps for each of the initial vegetation classes. This will allow you to easier assess the changes, both increase and decrease, of each of the vegetation classes. 
 
 ```{r load packages, include=FALSE, message=FALSE}
-setwd("//Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
+# setwd("//Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
 
 library(raster)
 library(tiff)
@@ -24,7 +24,7 @@ The first part of the function imports the vegetation change raster as tiff file
 
 ```{r import change map, echo=TRUE, message= FALSE, warning=FALSE}
 # Import change map
-veg_change = raster("klompenwaard_change.tif", convert = TRUE)
+veg_change = raster("Tutorial_files/klompenwaard_change.tif", convert = TRUE)
 
 # Define projection of vegetation and stable raster
 veg_change@crs = CRS("+init=epsg:28992")
@@ -63,11 +63,9 @@ pal = colorFactor(c("blue",
                    na.color = "transparent")
 
 # Build Map
-mymap = leaflet(width=910, height=500)%>%
-  
-  #Add Basemap
-  addProviderTiles("Esri.WorldGrayCanvas",
-                   options = tileOptions(minZoom=10, maxZoom=16)) %>%
+ mymap = leaflet(width=910, height =500)%>% 
+   
+   addProviderTiles("Esri.WorldGrayCanvas") %>%
 
     # Add grass
   addRasterImage(change_grass, 

@@ -12,14 +12,14 @@ navbar:
         - text: "LiDAR Data"  
           href: B_LiDAR.html
         - text: "Classification Method"  
-          href: B_Class.html
+          href: B_class.html
         
-    - text: "General User Interface"
+    - text: "Graphical User Interface"
       menu:
         - text: "Instructions" 
           href: GUI.html
         - text: "Example Results"
-          href: GUI_results.html
+          href: results.html
 
     - text: "Tutorial"
       menu:
@@ -38,9 +38,6 @@ navbar:
         - text: "Statistical Analysis"
           href: T_change_stat.html
     
-  right:
-    - icon: fa-question fa-lg
-      href: https://example.com
       
 output:
   html_document:

@@ -5,9 +5,16 @@ bibliography: source.bib
 
 ---
 
-From a satellite or airborne platform, we can also have a sensor send out a pulse signal. The time it takes to return can then be an estimate of the distance to the surface, or the actual height of the surface at that point. This is what we call point cloud data, see figure 2 for a visual explanation. The  3D  pattern found in these point clouds can be used to classify vegetation. Based on absolute height, density, and the pattern of the  points, algorithms  can  differentiate  between different  types  of  vegetation. Point cloud  data also  provides information on roughness for various types of vegetation, which is needed for water resistance equations and flood modelling [@antonarakis2008object].
 
-![Figure 2: Schematic representation of a LIDAR system](figures/pointcloud1.png)
+
+From a satellite or airborne platform, we can also have a sensor send out a pulse signal. The time it takes to return can then be an estimate of the distance to the surface, or the actual height of the surface at that point. This is what we call point cloud data, see figure 2 for a visual explanation. 
+
+<table class="image", align="right">
+<tr><td><img src="figures/pointcloud1.png" align="right"></td></tr>
+<caption align="bottom">Schematic representation of a LIDAR system</caption>
+</table>
+
+The  3D  pattern found in these point clouds can be used to classify vegetation. Based on absolute height, density, and the pattern of the  points, algorithms  can  differentiate  between different  types  of  vegetation. Point cloud  data also  provides information on roughness for various types of vegetation, which is needed for water resistance equations and flood modelling [@antonarakis2008object].
 
 For classifying vegetation in the floodplains in The Netherlands we use *Light Detection And Ranging* (LiDAR) data. The *Actueel Hoogtebestand Nederland* (AHN) provides LiDAR point cloud data for the whole of The Netherlands. A laser pulse can result in multiple returns and also penetrate through the vegetation, this results in a point cloud with points of the vegetation and points on the ground. The AHN has been extensively tested, and has a high quality [@van2011kwaliteitsdocument]. The mean point density of the AHN varies between 6 and 10 points per m<sup>2</sup>, depending on the land cover and possible overlap between flights.
 

@@ -19,7 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <link rel="stylesheet"
@@ -195,13 +194,13 @@ $(document).ready(function () {
       <a href="B_LiDAR.html">LiDAR Data</a>
     </li>
     <li>
-      <a href="B_Class.html">Classification Method</a>
+      <a href="B_class.html">Classification Method</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    General User Interface
+    Graphical User Interface
      
     <span class="caret"></span>
   </a>
@@ -210,7 +209,7 @@ $(document).ready(function () {
       <a href="GUI.html">Instructions</a>
     </li>
     <li>
-      <a href="GUI_results.html">Example Results</a>
+      <a href="results.html">Example Results</a>
     </li>
   </ul>
 </li>
@@ -246,12 +245,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://example.com">
-    <span class="fa fa-question fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -272,8 +266,8 @@ $(document).ready(function () {
 <h3>Calculate the Percentage of each Vegetation Cover During each Year</h3>
 <p>First, we calculate the percentage of pixels in each vegetation cover class for each year. This is done in the script as shown below. The rasters are imported. Then a loop is build in order to count the number of pixels within each class for both years seperately. This is done in a loop, because this way we can get a result of 0 in those classes which have no pixels represented in one or both of the years. That is important, because it will allow us to calculate a 0 percentage cover, instead of non-available data.</p>
 <p>Next, the script will sum the amount of pixels as calculated. Using this number as a total area, it proceeds to calculate the percentage of each vegetation class in a vectors for each year.</p>
-<pre class="r"><code>year_1 = raster(&quot;veg_klompenwaard_year1.tif&quot;, convert = TRUE)
-year_2 = raster(&quot;veg_klompenwaard_year2.tif&quot;, convert = TRUE)
+<pre class="r"><code>year_1 = raster(&quot;Tutorial_files/veg_klompenwaard_year1.tif&quot;, convert = TRUE)
+year_2 = raster(&quot;Tutorial_files/veg_klompenwaard_year2.tif&quot;, convert = TRUE)
 
 # Count stable and unstable pixels
 freq_veg_year1 = c()

@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 To gain insight into the absolute changes in the amount of change, and not just the location of it combined with a visual asessment, it is possible to calculate the percentages of vegetation change. The following **function x** calculates these, and proceedst to plot it, both in a bargraph and in a change matrix.
 
 ```{r load packages, include=FALSE, message=FALSE}
-setwd("/Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
+#setwd("/Users/felix/Documents/Umweltwissenschaft/Wageningen/Tutorial/Tutorial_files") # Set to working directory
 library(raster)
 library(tiff)
 library(rgdal)
@@ -24,8 +24,8 @@ First, we calculate the percentage of pixels in each vegetation cover class for 
 Next, the script will sum the amount of pixels as calculated. Using this number as a total area, it proceeds to calculate the percentage of each vegetation class in a vectors for each year.
 
 ```{r calculate yearly percentage, echo=TRUE, message= FALSE, warning=FALSE}
-year_1 = raster("veg_klompenwaard_year1.tif", convert = TRUE)
-year_2 = raster("veg_klompenwaard_year2.tif", convert = TRUE)
+year_1 = raster("Tutorial_files/veg_klompenwaard_year1.tif", convert = TRUE)
+year_2 = raster("Tutorial_files/veg_klompenwaard_year2.tif", convert = TRUE)
 
 # Count stable and unstable pixels
 freq_veg_year1 = c()
